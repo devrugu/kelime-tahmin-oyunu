@@ -64,7 +64,7 @@
             </form>
 
             <?php
-            echo $random_kelime; //hile
+            //echo $random_kelime; //hile
             
             
             if (isset($_POST['kelime_submit'])) {
