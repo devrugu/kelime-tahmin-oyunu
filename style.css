@@ -1,0 +1,111 @@
+body{
+    background-color: #24252A;
+}
+
+
+button {
+    font-family: "Montserrat", sans-serif;
+    font-weight: 500;
+    font-size: 20px;
+    color: #edf0f1;
+    text-decoration: none;
+}
+
+button {
+    padding: 9px 25px;
+    background-color: rgba(0, 136, 169, 1);
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease 0s;
+}
+
+button:hover {
+    background-color: rgba(0, 136, 169, 0.8);
+}
+
+.label{
+    color: #edf0f1;
+}
+
+.sub{
+    color: #edf0f1;
+}
+
+.success{
+    color: rgb(40, 211, 154);
+    background-color: rgb(5, 48, 48);
+    margin: auto;
+    width: fit-content;
+    border: 3px solid rgb(3, 10, 3);
+    padding: 10px;
+    margin-top: 250px;
+}
+
+.hata{
+    color: rgb(201, 56, 12);
+    background-color: rgb(39, 3, 3);
+    margin: auto;
+    width: fit-content;
+    border: 3px solid rgb(3, 10, 3);
+    padding: 10px;
+}
+
+.uyari{
+    color: rgba(36, 191, 230, 0.8);
+    background-color: rgb(6, 20, 58);
+    margin: auto;
+    width: fit-content;
+    border: 3px solid rgb(3, 10, 3);
+    padding: 10px;
+}
+
+.zorluk{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 200px;
+}
+
+.karsilama{
+    color: #edf0f1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 100px;
+}
+
+.oyun{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 200px;
+}
+
+.sifirdan-basla{
+    margin-top: 50px;
+    margin-left: 50px;
+
+}
+
+.zorluk-derecesi{
+    color: #edf0f1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 100px;
+}
+
+.dene{
+    margin-left: 200px;
+}
+
+.tekrar-oyna{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 100px;
+}
+
+
+
