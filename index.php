@@ -34,6 +34,8 @@
                 } 
             }
             else {
+                $sql = "DELETE FROM tahminler";
+                mysqli_query($conn, $sql);
                 ?>
                 <div class="karsilama">
                 <h1>Kelime Tahmin Oyununa Hoş geldiniz</h1>
