@@ -58,6 +58,7 @@ button:hover {
     width: fit-content;
     border: 3px solid rgb(3, 10, 3);
     padding: 10px;
+    border-radius: 2em;
 }
 
 .zorluk{

@@ -1,5 +1,6 @@
 <?php
     require 'functions.php';
+    require 'dbh.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -8,12 +9,16 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
     <link rel="stylesheet" href="style.css?v=<?php echo time(); ?>">
 
 </head>
 <body>
     <?php
+        if (isset($_POST['tekrar_kelime_olustur_submit'])) {
+            $sql = "DELETE FROM tahminler";
+            mysqli_query($conn, $sql);
+        }
+
         if (!isset($_POST['basla_submit']) && !isset($_POST['kelime_submit'])) {
             if (isset($_GET['success'])) {
                 if (isset($_GET['success']) == "oyunKazanildi") {
@@ -93,7 +98,7 @@
             <form action="index.php" method="post">
             <label for="kullanici_kelimesi" class="label">Kelime giriniz:<sub class="sub">(<?php echo strlen($random_kelime); ?> harfli ve her harfi farklı olmalı)</sub></label>
             <input type="hidden" name="random_kelime" value="<?php echo $random_kelime; ?>">
-            <input type="text" name="kullanici_kelimesi" id="kullanici_kelimesi" pattern="[a-z]*" title="sadece ingilizce karakterler olmalı" autofocus><br><br>
+            <input type="text" name="kullanici_kelimesi" id="kullanici_kelimesi" pattern="[a-z]*" title="sadece ingilizce karakterler olmalı" autofocus style="border-radius: 2em;"><br><br>
             <div class="dene">
             <button type="submit" name="kelime_submit">Dene</button>
             </div>
@@ -103,7 +108,7 @@
             
 
             <?php
-            echo $random_kelime; //hile
+            //echo $random_kelime; //hile
             
             
             if (isset($_POST['kelime_submit'])) {
@@ -125,17 +130,14 @@
                               </div>';
                     }
                     else {
-                        if (karakter_tekrari_var_mi($kullanici_kelimesi)) {
-                            echo '<div class="hata">
-                            Girilen kelimenin her harfi farklı olmalıdır!
-                            </div>';
-                        }
-                        else {
+                        
                             if ($kullanici_kelimesi == $random_kelime) {
                                 $harf_ve_yeri_dogru = strlen($kullanici_kelimesi);
                                 echo '<div class="success">
                                 '.$harf_ve_yeri_dogru.'+'.$sadece_harf_dogru.'-==>Oyunu kazandınız
                                 </div>';
+                                $sql = "DELETE FROM tahminler";
+                                mysqli_query($conn, $sql);
                                 
                                 header('Location: index.php?success=oyunKazanildi&harf_ve_yeri_dogru='.$harf_ve_yeri_dogru.'&sadece_harf_dogru='.$sadece_harf_dogru.'&random_kelime='.$random_kelime);
                             }
@@ -152,18 +154,52 @@
                                     }
                                 }
                             }
+                            $sql = "SELECT * FROM tahminler";
+                            $result = mysqli_query($conn, $sql);
+                            while ($row = mysqli_fetch_assoc($result)) {
+                                if ($row['tahmin'] == $kullanici_kelimesi) {
+                                    $sql2 = 'DELETE FROM tahminler WHERE tahmin="'.$kullanici_kelimesi.'"';
+                                    mysqli_query($conn, $sql2);
+                                }
+                            }
+                            $sql = 'INSERT INTO tahminler (tahmin, harf_ve_yeri_dogru, sadece_harf_dogru) VALUES ("'.$kullanici_kelimesi.'", "'.$harf_ve_yeri_dogru.'", "'.$sadece_harf_dogru.'")';
+                            mysqli_query($conn, $sql);
+
                             echo '<div class="uyari">
                             girilen kelime==>"'.$kullanici_kelimesi.'"==>('.$harf_ve_yeri_dogru.'+'.$sadece_harf_dogru.'-)
-                            </div>';
+                            </div><br>';
+                            $sql = 'SELECT * FROM tahminler;';
+                            $result = mysqli_query($conn, $sql);
+                            echo '<p class="uyari">Önceki tahminler</p>';
+                            while ($row = mysqli_fetch_assoc($result)) {
+                                if ($row['tahmin'] == $kullanici_kelimesi) {
+                                    continue;
+                                }
+                                if (mysqli_num_rows($result) == 1) {
+                                    echo '<p class="uyari">tahmin yapılmadı</p>';
+                                }
+                                
+                                else{
+                                    echo '<div class="uyari">
+                                    önceki kelime==>"'.$row['tahmin'].'"==>('.$row['harf_ve_yeri_dogru'].'+'.$row['sadece_harf_dogru'].'-)
+                                    </div><br>';
+                                }
                             
-                        }
+                                
+                            
+                        
+                            
+                            }
+
+                            
+                        
                     }
                 } 
             }
         }
     ?>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+    
 </body>
 
 
